@@ -1,6 +1,7 @@
 #!/bin/bash
 
-INFLUXDB_URL="http://localhost:8086/write?db=iot_metrics"
+INFLUXDB_URL="http://localhost:8086/api/v2/write?org=my-org&bucket=sensors&precision=us"
+AUTH_TOKEN="my-super-secret-token"
 METRIC="random_data"
 HOST=$(hostname)
 INTERVAL=0 # seconds between measurements
@@ -13,7 +14,9 @@ while true; do
   LINE="$METRIC,host=$HOST value=$RANDOM_DATA"
   
   # Send to InfluxDB
-  curl -s -i -XPOST "$INFLUXDB_URL" --data-binary "$LINE" >/dev/null
+  curl -s -i -XPOST "$INFLUXDB_URL" \
+  --header "Authorization: Token $AUTH_TOKEN" \
+  --data-raw "$LINE" > /dev/null
   
   echo "[$(date)] Sent Random data = $RANDOM_DATA"
   

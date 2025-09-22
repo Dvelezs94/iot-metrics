@@ -46,8 +46,12 @@ Password: admin
 You can send metrics directly to InfluxDB using the Line Protocol:
 
 ```
-curl -i -XPOST "http://localhost:8086/write?db=iot_metrics" --data-binary "temperature,sensor=esp32 value=23.5"
+curl -i -XPOST 'http://localhost:8086/api/v2/write?org=my-org&bucket=sensors&precision=us' \
+  --header 'Authorization: Token my-super-secret-token' \
+  --data-raw 'temperature,sensor=esp32 value=23.5'
 ```
+
+*replace `my-org` and `sensors` with your organization and bucket name defined in the docker-compose.yml file*
 
 `temperature` → measurement name
 
