@@ -7,7 +7,7 @@ datasources:
     url: http://influxdb:8086
     database: iot_metrics
     user: admin        # your username
-    password: admin    # your password
+    password: admin123    # your password
     isDefault: true
     jsonData:
       httpMode: POST
