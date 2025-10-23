@@ -1,8 +1,9 @@
 services:
+  # DB
   influxdb:
     image: influxdb:2.7
     container_name: influxdb
-    restart: always
+    # restart: always
     ports:
       - "8086:8086" # InfluxDB HTTP API & UI
     environment:
@@ -15,10 +16,41 @@ services:
     volumes:
       - influxdb_data:/var/lib/influxdb2
 
+  
+  # MQTT
+  nodered:
+    image: nodered/node-red
+    build:
+      dockerfile: Dockerfile.nodered
+    container_name: nodered
+    ports:
+      - 1880:1880
+    volumes:
+      - nodered_data:/data
+      # - ./provisioning/nodered/flows.json:/data/flows.json
+  
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./provisioning/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+
+  mqttui:
+    image: terdia07/mqttui:v1.3.2
+    container_name: mqtt_ui
+    environment:
+      - MQTT_BROKER=mosquitto
+      - MQTT_PORT=1883
+    ports:
+      - 8088:5000
+
+  # UI
   grafana:
     image: grafana/grafana
     container_name: grafana
-    restart: always
+    # restart: always
     depends_on:
       - influxdb
     ports:
@@ -27,12 +59,15 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_USERS_ALLOW_SIGN_UP=false
+      # custom plugins
+      - GF_INSTALL_PLUGINS=grafana-mqtt-datasource,grafana-simple-json-datasource
     volumes:
       - grafana_data:/var/lib/grafana
       - ./provisioning/datasources:/etc/grafana/provisioning/datasources
-      - ./provisioning/grafana/defaults.ini:/usr/share/grafana/conf/defaults.ini
+      # - ./provisioning/grafana/defaults.ini:/usr/share/grafana/conf/defaults.ini
 
 volumes:
   influxdb_data:
   grafana_data:
+  nodered_data:
 

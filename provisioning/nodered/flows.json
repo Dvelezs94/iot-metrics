@@ -1,0 +1,236 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "b93858f2554572d9",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mosquitto",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e6510befbb54c85e",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": 8086,
+        "protocol": "http",
+        "database": "database",
+        "name": "docker",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://influxdb:8086",
+        "timeout": 10,
+        "rejectUnauthorized": false
+    },
+    {
+        "id": "4e3eeb3813ec7e4e",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "heartbeat/light",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "b93858f2554572d9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 510,
+        "y": 420,
+        "wires": [
+            [
+                "a6ddf7b20404f0ae",
+                "07b4f32d33dc47a0"
+            ]
+        ]
+    },
+    {
+        "id": "07b4f32d33dc47a0",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "6193d928e385852c",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"light\": 20, \"humidity\": 60}",
+        "payloadType": "str",
+        "x": 110,
+        "y": 420,
+        "wires": [
+            [
+                "9bdc0873ef40b31c"
+            ]
+        ]
+    },
+    {
+        "id": "9bdc0873ef40b31c",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "heartbeat",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "b93858f2554572d9",
+        "x": 300,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "af24068f0d1714d2",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "Test",
+        "info": "",
+        "x": 90,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "de87e50114f20ae1",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "To influx and Grafana",
+        "info": "",
+        "x": 540,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "a6ddf7b20404f0ae",
+        "type": "influxdb out",
+        "z": "f6f2187d.f17ca8",
+        "influxdb": "e6510befbb54c85e",
+        "name": "",
+        "measurement": "light",
+        "precision": "u",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "us",
+        "retentionPolicyV18Flux": "",
+        "org": "my-org",
+        "bucket": "sensors",
+        "x": 770,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "fc20dc489a75e328",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "heartbeat/ecg",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "b93858f2554572d9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 510,
+        "y": 580,
+        "wires": [
+            [
+                "889d018a1a7ed5a5",
+                "f3562f3f05033cf8"
+            ]
+        ]
+    },
+    {
+        "id": "f3562f3f05033cf8",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "889d018a1a7ed5a5",
+        "type": "influxdb out",
+        "z": "f6f2187d.f17ca8",
+        "influxdb": "e6510befbb54c85e",
+        "name": "",
+        "measurement": "ecg",
+        "precision": "u",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "us",
+        "retentionPolicyV18Flux": "",
+        "org": "my-org",
+        "bucket": "sensors",
+        "x": 770,
+        "y": 580,
+        "wires": []
+    }
+]
