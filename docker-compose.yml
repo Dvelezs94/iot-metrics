@@ -19,7 +19,7 @@ services:
   
   # MQTT
   nodered:
-    image: nodered/node-red
+    # image: nodered/node-red
     build:
       dockerfile: Dockerfile.nodered
     container_name: nodered

@@ -5,7 +5,7 @@ datasources:
     type: grafana-mqtt-datasource
     version: 1
     "jsonData": {
-      "uri": "ws://mosquitto:1883"
+      "uri": "tcp://mosquitto:1883"
     }
     isDefault: false
     editable: true
